@@ -6,11 +6,10 @@ from . import models
 
 
 class CoreRegisterSerializer(RegisterSerializer):
-    Date_of_Birth = serializers.DateField()
 
     class Meta:
         model = models.User
-        fields = ('email', 'username', 'password', 'first_name', 'Date_of_Birth')
+        fields = ('email', 'username', 'password', 'first_name')
 
     def get_cleaned_data(self):
         return {
@@ -18,7 +17,6 @@ class CoreRegisterSerializer(RegisterSerializer):
             'email': self.validated_data.get('email', ''),
             'first_name': self.validated_data.get('first_name', ''),
             'password1': self.validated_data.get('password1', ''),
-            'Date_of_Birth': self.validated_data.get('Date_of_Birth', ''),
         }
 
     def save(self, request):
@@ -35,7 +33,7 @@ class CoreRegisterSerializer(RegisterSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.User
-        fields = ('email', 'username', 'password', 'first_name', 'Date_of_Birth')
+        fields = ('email', 'username', 'password', 'first_name')
 
 
 class ChangePasswordSerializer(serializers.Serializer):
@@ -45,7 +43,6 @@ class ChangePasswordSerializer(serializers.Serializer):
 
 
 class TokenSerializer(serializers.ModelSerializer):
-    user_type = serializers.SerializerMethodField()
 
     class Meta:
         model = Token
@@ -54,6 +51,6 @@ class TokenSerializer(serializers.ModelSerializer):
     def get_user_type(self, obj):
         serializer_data = UserSerializer(
             obj.user
-        ).datas
+        ).data
 
         return {serializer_data}
