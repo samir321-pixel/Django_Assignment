@@ -12,10 +12,8 @@
 * Models refereeing the DB Schema.
 * Rest APIs.
 
-## 👌 Get Live Demo Here!
-```bash
-https://djangoblogsiteassignment.herokuapp.com/
-```
+
+- [👌 Get Live Demo Here!](https://djangoblogsiteassignment.herokuapp.com/)
 
 ## 🚀 Technology Stack
 * Backend
