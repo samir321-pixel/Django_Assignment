@@ -15,6 +15,8 @@ class BlogViewsets(viewsets.ModelViewSet):
     queryset = Blog.objects.all().order_by('-created_at')
     serializer_class = BlogSerializer
     permission_classes = (IsAuthenticated,)
+    filter_backends = [SearchFilter, ]
+    search_fields = ['category__name']
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=self.request.data)
@@ -23,3 +25,9 @@ class BlogViewsets(viewsets.ModelViewSet):
             return Response(serializer.data, status=200)
         else:
             return Response(serializer.errors, status=401)
+
+    def list(self, request, *args, **kwargs):
+        query = Blog.objects.all().order_by('-created_at')
+        query = self.filter_queryset(self.get_queryset())
+        serializer = BlogReadSerializer(query, many=True)
+        return Response(serializer.data, status=201)
